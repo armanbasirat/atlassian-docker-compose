@@ -1,10 +1,11 @@
 version: "3.8"
 services:
+
   jira:
     container_name: jira
     depends_on:
       - postgres
-    build: .
+    build: ./jira
     environment:
       - TZ=Asia/Tehran
       - ATL_TOMCAT_SCHEME=https
@@ -14,26 +15,57 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - jiradata:/var/atlassian/jira
-      #- jirafiles:/var/atlassian/application-data/jira/data/
+      - jira_data:/var/atlassian/application-data/jira
     restart: always
+
+  conf:
+    container_name: conf
+    depends_on:
+      - postgres
+    build: ./conf
+    environment:
+      - TZ=Asia/Tehran
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_TOMCAT_SECURE=true
+      - ATL_PROXY_NAME=conf.dev.omid.ir
+      - ATL_PROXY_PORT=443
+    ports:
+      - 8090:8090
+    volumes:
+      - conf_data:/var/atlassian/confluence
+    restart: always
+    
   postgres:
     container_name: postgres                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     image: postgres:alpine
     environment:
-      - POSTGRES_USER=dbadmin
-      - POSTGRES_PASSWORD=postgrespass
-      - POSTGRES_DB=jiradb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=jira_db
     logging:
       options:
         max-size: 10m
         max-file: "3"
-    ports:
-      - 5433:5432
     volumes:
-      - postgresdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: always
+
 volumes:
-  jiradata:
-  #jirafiles:
-  postgresdata:
+  jira_data:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: ./data/jira
+  conf_data:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: ./data/conf
+  postgres_data:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: ./data/postgres
