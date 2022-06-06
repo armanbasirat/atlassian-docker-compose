@@ -1,2 +1,2 @@
-./conf/atlassian-agent.jar
-./jira/atlassian-agent.jar
+conf/atlassian-agent.jar
+jira/atlassian-agent.jar
