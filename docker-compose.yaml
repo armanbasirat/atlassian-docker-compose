@@ -10,7 +10,7 @@ services:
       - TZ=Asia/Tehran
       - ATL_TOMCAT_SCHEME=https
       - ATL_TOMCAT_SECURE=true
-      - ATL_PROXY_NAME=jira.dev.omid.ir
+      - ATL_PROXY_NAME=jira.test.ir
       - ATL_PROXY_PORT=443
     ports:
       - 8080:8080
@@ -27,7 +27,7 @@ services:
       - TZ=Asia/Tehran
       - ATL_TOMCAT_SCHEME=https
       - ATL_TOMCAT_SECURE=true
-      - ATL_PROXY_NAME=conf.dev.omid.ir
+      - ATL_PROXY_NAME=conf.test.ir
       - ATL_PROXY_PORT=443
     ports:
       - 8090:8090
