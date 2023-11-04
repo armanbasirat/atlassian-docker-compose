@@ -47,7 +47,7 @@ services:
         max-size: 10m
         max-file: "3"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/atlassian/application-data/confluence
     restart: always
 
 volumes:
